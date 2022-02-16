@@ -89,7 +89,7 @@ while True:
             if target_price < current_price and current_price < predicted_close_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    upbit.buy_market_order("KRW-MANA", krw*0.9995)
+                    upbit.buy_market_order("KRW-MANA", krw*0.3998)
         else:
             btc = get_balance("MANA")
             if btc > 0.00008:
