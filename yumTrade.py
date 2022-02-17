@@ -5,8 +5,7 @@ import datetime
 
 access = ""
 secret = ""
-coin="KRW-MANA"
-coin_name="MANA"
+
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
     df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
@@ -42,51 +41,21 @@ print("autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time1 = get_start_time(coin) 
-        start_time2 = start_time1 + datetime.timedelta(minutes=60)
-        start_time3 = start_time1 + datetime.timedelta(minutes=120)
-        end_time1 = start_time1 + datetime.timedelta(days=1)
-        end_time2 = start_time2 + datetime.timedelta(days=1)
-        end_time3 = start_time3 + datetime.timedelta(days=1)
+        start_time = get_start_time("KRW-MANA") #-> 이부분 각코인마다 변경
+        end_time = start_time + datetime.timedelta(days=1)
         #0900i 부터 0859:50i
-        if start_time1 < now < end_time1 - datetime.timedelta(seconds=10): #9시
-            target_price = get_target_price(coin, 0.5)
-            current_price = get_current_price(coin)
-            if target_price < current_price: 
-                krw = get_balance("KRW")     
-                if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.1999)#- 매수
-        else:
-            btc = get_balance(coin_name)
-            if btc > 0.00008:
-                upbit.sell_market_order(coin, btc)
-
-        if start_time2 < now < end_time2 - datetime.timedelta(seconds=10): # 10시 
-            target_price = get_target_price(coin, 0.5)
-            current_price = get_current_price(coin)#매도
+        if start_time < now < end_time - datetime.timedelta(seconds=10):
+            target_price = get_target_price("KRW-MANA", 0.9)#-> 이부분 각코인마다 변경
+            current_price = get_current_price("KRW-MANA")#-> 이부분 각코인마다 변경
             if target_price < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.1999)#- 매수
+                    upbit.buy_market_order("KRW-MANA", krw*0.9995)#-> 이부분 각코인마다 변경
         else:
-            btc = get_balance(coin_name)
+            btc = get_balance("MANA")#-> 이부분 각코인마다 변경
             if btc > 0.00008:
-                upbit.sell_market_order(coin, btc)#매도
-
-        if start_time3 < now < end_time3 - datetime.timedelta(seconds=10): #11시
-            target_price = get_target_price(coin, 0.5)
-            current_price = get_current_price(coin)
-            if target_price < current_price:
-                krw = get_balance("KRW")    
-                if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.1999)#- 매수
-        else:
-            btc = get_balance(coin_name)
-            if btc > 0.00008:
-                upbit.sell_market_order(coin, btc) #매도
-
+                upbit.sell_market_order("KRW-MANA", btc)#-> 이부분 각코인마다 변경
         time.sleep(1)
-
     except Exception as e:
         print(e)
         time.sleep(1)
