@@ -54,7 +54,7 @@ while True:
         else:
             btc = get_balance("MANA")#-> 이부분 각코인마다 변경
             if btc > 0.00008:
-                upbit.sell_market_order("KRW-MANA", btc*0.9995)#-> 이부분 각코인마다 변경
+                upbit.sell_market_order("KRW-MANA", btc)#-> 이부분 각코인마다 변경
         time.sleep(1)
     except Exception as e:
         print(e)
