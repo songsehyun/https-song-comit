@@ -23,7 +23,7 @@ def get_target_price2(ticker, k):
 def get_target_price3(ticker, k):
     """1100시 기준변동성 돌파 전략으로 매수 목표가 조회"""
     df=pyupbit.get_daily_ohlcv_from_base(ticker, base=11)
-    target_price3 = df.iloc[-1]['close'] + (df.iloc[-1]['high'] - df.iloc[-1]['low']) * k
+    target_price3 = df.iloc[-2]['close'] + (df.iloc[-2]['high'] - df.iloc[-2]['low']) * k
     return target_price3
 
 def get_start_time(ticker):
