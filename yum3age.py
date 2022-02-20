@@ -51,6 +51,12 @@ def get_current_price(ticker):
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
+
+a=int(0) 
+b=int(0)
+c=int(0)
+'''여러번 매수를 방지하기 위한 변수'''
+krw = (get_balance("KRW")/3)-0.0005  
 # 자동매매 시작
 while True:
     try:
@@ -65,38 +71,38 @@ while True:
         if start_time1 < now < end_time1 - datetime.timedelta(seconds=10): #9시
             target_price1 = get_target_price1(coin, 0.5)
             current_price = get_current_price(coin)
-            if target_price1 < current_price: 
-                krw = get_balance("KRW")     
-                if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.3333)#- 매수
+            if krw > 5000 and target_price1 < current_price and a==0:
+                upbit.buy_market_order(coin, krw)#- 매수
+                a=1
         else:
             btc = get_balance(coin_name)
             if btc > 0.00008:
                 upbit.sell_market_order(coin, btc)
+                a=0
 
         if start_time2 < now < end_time2 - datetime.timedelta(seconds=10): # 10시 
             target_price2 = get_target_price2(coin, 0.5)
-            current_price = get_current_price(coin)#매도
-            if target_price2 < current_price:
-                krw = get_balance("KRW")
-                if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.3331)#- 매수
+            current_price = get_current_price(coin)
+            if krw > 5000 and target_price2 < current_price and b==0:
+                upbit.buy_market_order(coin, krw)#- 매수
+                b=1
         else:
             btc = get_balance(coin_name)
             if btc > 0.00008:
                 upbit.sell_market_order(coin, btc)#매도
+                b=0
 
         if start_time3 < now < end_time3 - datetime.timedelta(seconds=10): #11시
             target_price3 = get_target_price3(coin, 0.5)
             current_price = get_current_price(coin)
-            if target_price3 < current_price:
-                krw = get_balance("KRW")    
-                if krw > 5000:
-                    upbit.buy_market_order(coin, krw*0.3331)#- 매수
+            if krw > 5000 and target_price3 < current_price and c==0:
+                upbit.buy_market_order(coin, krw)#- 매수
+                c=1
         else:
             btc = get_balance(coin_name)
             if btc > 0.00008:
                 upbit.sell_market_order(coin, btc) #매도
+                c=0
 
         time.sleep(1)
 
